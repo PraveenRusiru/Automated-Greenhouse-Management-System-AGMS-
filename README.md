@@ -99,6 +99,7 @@ AGMS/
 └── docs/                   # Postman Collections & Screenshots
 ```
 👨‍💻 Author
-Praveen Rusiru Software Developer & Tech Enthusiast
+Praveen Rusiru -  Software Developer & Tech Enthusiast
 
 📜 License
+This project is licensed under the MIT License - see the LICENSE file for details.
