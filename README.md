@@ -1,179 +1,104 @@
-# Automated Greenhouse Management System (AGMS)
+# 🌱 Automated Greenhouse Management System (AGMS)
 
-## Introduction
-The **Automated Greenhouse Management System (AGMS)** is a **cloud-based microservices application** built to manage and monitor greenhouse conditions efficiently. It connects with an external IoT platform to collect environmental data such as **temperature** and **humidity**, then uses that data to automate decisions inside the greenhouse.
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen)](https://spring.io/projects/spring-boot)
+[![Microservices](https://img.shields.io/badge/Architecture-Microservices-blue)](https://microservices.io/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This project demonstrates how **Spring Boot**, **Spring Cloud**, and **microservice architecture** can be combined to build a scalable smart agriculture solution.
-
----
-
-## Key Functionalities
-
-- Live monitoring of greenhouse environmental conditions
-- Automatic control decisions based on predefined rules
-- Zone-based management with custom threshold values
-- Crop growth stage management from planting to harvesting
-- Secure API communication with JWT-based authentication
-- Service registration and discovery using Eureka
-- Centralized API access through an API Gateway
+AGMS is a cloud-native, IoT-driven ecosystem designed to modernize precision agriculture. By leveraging a microservices architecture, the system provides real-time environmental monitoring and autonomous decision-making to optimize crop yields and reduce resource waste.
 
 ---
 
-## System Modules
+## 🏗️ System Architecture
 
-### Infrastructure Services
-These services handle the overall microservice environment:
+The project follows a **distributed microservices pattern** using Spring Cloud for high availability and scalability.
 
-- **Config Server**  
-  Maintains centralized configuration for all services.
+### 🔹 Infrastructure Layer
+* **Netflix Eureka:** Service discovery to allow microservices to find and communicate with each other.
+* **Spring Cloud Gateway:** Central entry point for all clients, handling routing and cross-cutting concerns.
+* **Config Server:** Centralized external configuration management for all environments.
 
-- **Eureka Server**  
-  Registers and discovers all active microservices.
-
-- **API Gateway**  
-  Serves as the single entry point for routing client requests and securing APIs.
-
----
-
-### Business Microservices
-
-- **Zone Service** (`8081`)  
-  Handles greenhouse zones and their environmental limits.
-
-- **Sensor Service** (`8082`)  
-  Connects with the external IoT provider and retrieves sensor readings.
-
-- **Automation Service** (`8083`)  
-  Processes incoming sensor values and decides whether automated actions are required.
-
-- **Crop Service** (`8084`)  
-  Manages crops and their growth stages inside the greenhouse.
+### 🔹 Business Logic Layer
+* **Zone Service:** Defines physical greenhouse boundaries and environmental setpoints.
+* **Sensor Service:** The bridge between the IoT hardware and the cloud; polls real-time data from external APIs.
+* **Automation Service:** The "Brain" of the system; evaluates sensor data against thresholds to trigger actuators (Fans, Heaters, etc.).
+* **Crop Service:** Tracks the biological progress of plants from planting to harvest.
 
 ---
 
-## Core Features
+## 🚀 Key Features
 
-### Environmental Monitoring
-The system continuously reads:
-- Temperature
-- Humidity
-
-These readings are collected through an external IoT API and used for further processing.
-
-### Smart Automation
-Based on the configured threshold values for each greenhouse zone, the system can trigger actions such as:
-- Turning the **fan on**
-- Turning the **heater on**
-
-### Zone Management
-Each greenhouse can be divided into multiple zones, where each zone can maintain:
-- Minimum temperature
-- Maximum temperature
-- Minimum humidity
-- Maximum humidity
-
-### Crop Lifecycle Tracking
-The platform allows crops to be managed through multiple growth stages, such as:
-- Seedling
-- Vegetative
-- Flowering / Growing
-- Harvested
+* **Real-Time Data Pipeline:** Automatic IoT data fetching via external REST providers every 10 seconds.
+* **Intelligent Automation:** Rule-based engine that minimizes human intervention by reacting to humidity/temperature fluctuations.
+* **Lifecycle Management:** Comprehensive tracking of crop stages (Seedling, Vegetative, Flowering, Harvest).
+* **State-of-the-Art Security:** Stateless authentication using **JWT (JSON Web Tokens)** enforced at the Gateway level.
+* **Inter-service Communication:** Synchronous communication handled via **OpenFeign** clients.
 
 ---
 
-## Technology Stack
+## 🛠️ Tech Stack
 
-### Backend
-- Java
-- Spring Boot
-- Spring Cloud
-
-### Security
-- JWT Authentication
-
-### Communication
-- REST APIs
-- OpenFeign
-
-### Microservice Support
-- Netflix Eureka
-- Spring Cloud Gateway
-- Spring Cloud Config
-
-### Testing
-- Postman
+| Category | Technology |
+| :--- | :--- |
+| **Framework** | Spring Boot 3.x |
+| **Cloud/Microservices** | Spring Cloud (Gateway, Eureka, Config) |
+| **Security** | Spring Security, JWT |
+| **Communication** | OpenFeign, REST |
+| **Documentation** | Postman, Markdown |
 
 ---
 
-## External IoT Integration
+## 🚦 Getting Started
 
-The project integrates with a third-party IoT service to receive environmental sensor data.
+### Prerequisites
+* Java 17+
+* Maven 3.6+
+* Git
 
-**IoT API Base URL:**  
-`http://104.211.95.241:8080/api`
+### Installation & Startup
+To run the system locally, services must be started in the following specific order to ensure proper registration:
 
-This API provides:
-- Temperature values
-- Humidity values
+1.  **Clone the repository**
+    ```bash
+    git clone [https://github.com/praveenrusiru/AGMS.git](https://github.com/praveenrusiru/AGMS.git)
+    cd AGMS
+    ```
 
-Authentication is required when communicating with the provider.
+2.  **Spin up Infrastructure**
+    * Navigate to `config-server` and run `mvn spring-boot:run`
+    * Navigate to `eureka-server` and run `mvn spring-boot:run`
+    * Navigate to `api-gateway` and run `mvn spring-boot:run`
 
----
+3.  **Launch Microservices**
+    * Start `zone-service`, `sensor-service`, `automation-service`, and `crop-service` respectively.
 
-## Project Workflow
-
-1. The **Sensor Service** retrieves sensor data from the IoT provider at regular intervals.
-2. The collected readings are forwarded to the **Automation Service**.
-3. The **Automation Service** compares the values with the configured thresholds of each zone.
-4. If a condition is violated, the system decides the appropriate response.
-5. The result is logged and can be observed through the system.
-
----
-
-## Running the Project
-
-### Step 1 – Start Infrastructure Services
-Run the following services first:
-
-1. Config Server
-2. Eureka Server
-3. API Gateway
-
-### Step 2 – Start Domain Services
-After the infrastructure is ready, start:
-
-1. Zone Service
-2. Sensor Service
-3. Automation Service
-4. Crop Service
+4.  **Verification**
+    * Access the Eureka Dashboard at `http://localhost:8761` to ensure all services are **UP**.
 
 ---
 
-## API Testing
-You can test the APIs using **Postman**.
-
-- Import the provided Postman collection into Postman
-- Send requests through the **API Gateway**
-- Verify service communication and automation flow
-
----
-
-## Eureka Dashboard
-The Eureka dashboard can be used to confirm whether all services are successfully registered and running.
-
-A screenshot of the dashboard can be added to the `docs` directory.
+## 🧪 API Testing
+A pre-configured **Postman Collection** is included in the `/docs` directory. 
+1. Import the collection into Postman.
+2. Generate a JWT token via the authentication endpoint.
+3. Use the token to test the endpoints through the **API Gateway (Port 8080)**.
 
 ---
 
-## Suggested Project Structure
-
-```bash
+## 📂 Project Structure
+```text
 AGMS/
-├── config-server/
-├── eureka-server/
-├── api-gateway/
-├── zone-service/
-├── sensor-service/
-├── automation-service/
-├── crop-service/
-└── 
+├── infrastructure/
+│   ├── config-server/      # Centralized Configs
+│   ├── eureka-server/      # Service Registry
+│   └── api-gateway/        # Entry Point & Security
+├── services/
+│   ├── zone-service/       # Threshold Management
+│   ├── sensor-service/     # IoT Data Polling
+│   ├── automation-service/ # Logic & Rules
+│   └── crop-service/       # Crop Tracking
+└── docs/                   # Postman Collections & Screenshots
+```
+👨‍💻 Author
+Praveen Rusiru Software Developer & Tech Enthusiast
+
+📜 License
