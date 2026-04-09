@@ -59,7 +59,7 @@ To run the system locally, services must be started in the following specific or
 
 1.  **Clone the repository**
     ```bash
-    git clone [https://github.com/praveenrusiru/AGMS.git](https://github.com/praveenrusiru/AGMS.git)
+    git clone (https://github.com/PraveenRusiru/Automated-Greenhouse-Management-System-AGMS-.git)
     cd AGMS
     ```
 
